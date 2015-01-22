@@ -8,6 +8,7 @@
         color: '#cdbbcf',
         defaults: {
             name: {value:""},
+            command: {value:"head green 0.5"}
         },
         inputs:1,
         outputs:1,
@@ -21,13 +22,17 @@
 <script type="text/x-red" data-template-name="nrbuddy">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i>Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-input-name" placeholder="came">
+    </div>
+    <div class="form-row">
+        <label for="node-input-command"><i class="icon-tag"></i>Command</label>
+        <input type="text" id="node-input-command" placeholder="command">
     </div>
     
 </script>
 
 <script type="text/x-red" data-help-name="nrbuddy">
-    <p>first pass to wrap the buddy LCD (output)</p>
+    <p>first pass to wrap the buddy (output)</p>
 </script>
 
 

@@ -29,20 +29,17 @@ module.exports = function(RED) {
 
         node.log("nrbuddy");
 
-        var width      = config.width;
-		var height     = config.height;
-        var cursor     = config.showCursor;
-        var light      = config.lightOn;
+        var command    = config.command;
 
 
-		if(RED.settings.verbose){ node.log(width + " x " + height); }
+
+		if(RED.settings.verbose){ node.log( "cmd: " + command); }
 
         startBuddyDriver(node);
         node.status({fill:"amber",shape:"circle",text:"ooo"});
         node.on('input', function(msg) {
             if(RED.settings.verbose) { node.log("string " + msg.payload);}
-        	msg.cursor = cursor;
-            msg.light = light;
+            msg.command = command;
             display(node, msg);
             node.status({fill:"green",shape:"circle",text:msg.payload});
         });
@@ -103,7 +100,7 @@ function stopBuddyDriver(node) {
 // send the message out to the PIFaceCAD lcd module via the python process we
 // started earlier
 function display(node, msg) {
-    console.log( "got:" + msg.payload);
+    console.log( "got:" + msg.command);
 	
     // preprocess the string if we want
     //  - dimensions?
@@ -111,20 +108,14 @@ function display(node, msg) {
 
     // clear the screen
     // push the new message 
-    if (msg.light==true ){
-        msg.light = "on";
-    } else {
-        msg.light = "off";
-    }
-
-
+    
     
     if (node.child != null) {
-        node.log("push the msg to the driver");
-        node.child.stdin.write('light ' + msg.light +  '\n');
-        node.child.stdin.write('disp ' + msg.payload +  '\n');
+        node.log("push the msg to the buddy");
+        //node.child.stdin.write('light ' + msg.light +  '\n');
+        node.child.stdin.write( ""+msg.command +  '\n');
     } else {
-        executeCmd(node, "disp " + msg );
+        executeCmd(node, ""+msg.command );
     }
 
 } // display function
